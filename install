@@ -1,4 +1,0 @@
-#!/bin/bash
-
-conda create -p ./venv
-conda install -p venv -c conda-forge numpy scipy pyvista
