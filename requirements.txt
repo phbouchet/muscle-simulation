@@ -2,3 +2,5 @@ numpy
 scipy
 pyvista
 gmsh
+fenics-ffc
+matplotlib
