@@ -6,6 +6,13 @@ We seek to implement the algorithm proposed by V. Modi et al. in their paper [EM
 
 In order to accomplish this project, we must install fenicsx.
 
+
+### Create virtual environment
+
+To start off, let's create the virtual environment in the root of our `muscle-simulation` repo:
+
+`$ python3 -m venv env`
+
 ### For **Debian**:
 - `$ sudo apt install fenicsx`
 
