@@ -31,9 +31,11 @@ L = inner(f, v) * dx + inner(g, v) * ds
 problem = fem.petsc.LinearProblem(a, L, bcs=[bc], petsc_options={"ksp_type": "preonly", "pc_type": "lu"})
 uh = problem.solve()
 
-with io.XDMFFile(msh.comm, "out_poisson/poisson.xdmf", "w") as file:
-    file.write_mesh(msh)
-    file.write_function(uh)
+# Example to write meshes:
+# 
+#with io.XDMFFile(msh.comm, "out_poisson/poisson.xdmf", "w") as file:
+#    file.write_mesh(msh)
+#    file.write_function(uh)
 
 try:
     import pyvista
