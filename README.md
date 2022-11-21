@@ -28,6 +28,7 @@ You will need:
 - Boost
 - CMake
 - pkg-config
+- FFCx
 - Basix
 - Pugixml
 - PETSc
@@ -43,6 +44,16 @@ To install Boost:
 To install CMake:
 
 `$ sudo apt install cmake`
+
+## FFCx
+
+To install FFCx:
+
+- `$ git clone https://github.com/FEniCS/ffcx ~/ffcx`
+- `$ cd ~/ffcx`
+- `$ cmake -B build-dir -S cmake/` 
+- `$ cmake --build build-dir` 
+- `$ cmake --install build-dir`
 
 ## pkg-config:
 
