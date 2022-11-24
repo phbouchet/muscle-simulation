@@ -45,6 +45,16 @@ To install CMake:
 
 `$ sudo apt install cmake`
 
+## Basix:
+
+To install Basix:
+
+- `$ git clone git@github.com:FEniCS/basix.git ~/basix`
+- `$ cd ~/basix/cpp`
+- `$ cmake -DCMAKE_BUILD_TYPE=Release -B build-dir -S .`
+- `$ cmake --build build-dir`
+- `$ sudo cmake --install build-dir`
+
 ## FFCx
 
 To install FFCx:
@@ -60,16 +70,6 @@ To install FFCx:
 To install pkg-config:
 
 `$ sudo apt install pkg-config`
-
-## Basix:
-
-To install Basix:
-
-- `$ git clone git@github.com:FEniCS/basix.git ~/basix`
-- `$ cd ~/basix/cpp`
-- `$ cmake -DCMAKE_BUILD_TYPE=Release -B build-dir -S .`
-- `$ cmake --build build-dir`
-- `$ sudo cmake --install build-dir`
 
 ## Pugixml:
 
