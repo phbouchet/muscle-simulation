@@ -4,7 +4,9 @@ numba
 matplotlib
 
 # Mesh related packages
+pyvtk
 pyvista
+meshpy
 gmsh
 
 # DOLFINx related packages
