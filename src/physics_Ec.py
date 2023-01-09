@@ -10,7 +10,7 @@ def create_G(Q : np.ndarray, dim : tuple) -> np.ndarray:
     G = np.zeros((9*m, 3*n))
 
     for i in range (0,m):        
-        Q1 = np.array([Q[i * 12], Q[i * 12 + 1], Q[i * 12 + 2]])
+        Q1 = np.array([Q[i * 12],     Q[i * 12 + 1] , Q[i * 12 + 2]])
         Q2 = np.array([Q[i * 12 + 3], Q[i * 12 + 4] , Q[i * 12 + 5]])
         Q3 = np.array([Q[i * 12 + 6], Q[i * 12 + 7] , Q[i * 12 + 8]])
         Q4 = np.array([Q[i * 12 + 9], Q[i * 12 + 10], Q[i * 12 + 11]])
@@ -39,6 +39,5 @@ def Ec(F : np.ndarray, G : np.ndarray, q : np.ndarray) -> int:
 def argmin_Ec(F : np.ndarray, G : np.ndarray) -> np.ndarray:
     return np.linalg.inv(G.T @ G) @ G.T @ F
 
-
 def d_Ec(F : np.ndarray, G : np.ndarray) -> np.ndarray:
-    return -G @ Ec(F, G) + F
+    return -G @ argmin_Ec(F, G) + F
