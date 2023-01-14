@@ -1,16 +1,21 @@
 import os
-import trimesh
-
 import numpy as np
-import scipy as sci
 
+from EMU import *
 from mesh_tools import *
 
-print(f"Loading file from : {os.getcwd()}/data/arm_tet.obj")
+np.random.seed(42)
 
-mesh_path = f"{os.getcwd()}/data/arm_tet.obj"
+mesh_file = "simple_tet.obj"
+mesh_path = f"{os.getcwd()}/data/{mesh_file}"
+vertices, faces = load_mesh(mesh_path)
 
-vertices, faces = load_obj_mesh(mesh_path)
-mesh = trimesh.Trimesh(vertices=vertices, faces=faces, process=False)
-triangle = get_triangle(vertices, faces[0])
-print(triangle)
+n = len(vertices)
+m = int(n / 4)
+dim = (n, m)
+
+F = np.ravel(np.identity(3))[:, None]
+Q = np.ravel(np.array(vertices))[:, None]
+u = np.ones((3*m, 1))
+
+EMU(F, Q, u, dim, mesh_path)
