@@ -7,13 +7,12 @@ import numpy as np
 from physics_Ec  import *
 from physics_psi import *
 
-def W(F : np.ndarray, G : np.ndarray) -> int:
-    q = argmin_Ec(F, G)
+def W(F : np.ndarray, G : np.ndarray, q : np.ndarray) -> int:
     return np.sum(q[2::3])
 
 def E(F : np.ndarray, G : np.ndarray, u : np.ndarray, t : int, α : int) -> int:
     q = argmin_Ec(F, G)
-    return psi_iso(F) + psi_fiber(F, u, t) + α * Ec(F, G, q)[0,0] - W(F, G)
+    return psi_iso(F) + psi_fiber(F, u, t) + α * Ec(F, G, q)[0,0] - W(F, G, q)
 
 def d_E(F : np.ndarray, G : np.ndarray, u : np.ndarray, t : int, α : int) -> np.ndarray:
     return d_psi_iso(F) + d_psi_fiber(F, u, t) + α * d_Ec(F, G)
