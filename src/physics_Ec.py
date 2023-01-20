@@ -40,7 +40,7 @@ def argmin_Ec(F : np.ndarray, G : np.ndarray) -> np.ndarray:
     return np.linalg.inv(G.T @ G) @ G.T @ F
 
 def d_Ec(F : np.ndarray, G : np.ndarray) -> np.ndarray:
-    return -G @ argmin_Ec(F, G) + F
+    return -G @ np.linalg.inv(G.T @ G) @ G.T @ F + F
 
 # This hessian can ONLY be used for extremely small scale meshes
 def Ec_hessian(F : np.ndarray, G : np.ndarray) -> np.ndarray:
