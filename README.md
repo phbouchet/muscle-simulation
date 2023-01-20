@@ -54,15 +54,19 @@ $ deactivate
 
 ## Running the algorithm
 
-To execute the algorithm on a mesh, simply run the code as such:
+The program can be executed in two different modes: convergence mode, and iterative mode.
 
+Convergence mode:
+- By default, it is run in convergence mode, which means that the algorithm will automatically halt once it has converged.
+- To execute the program on a mesh in convergence mode:
 ```console
 $ ./src/main.py simple_tet.obj
 ```
 
-The algorithm can be run in two different ways. By default, it is run in convergence mode, which means that the algorithm will automatically halt once it has converged. The algorithm can also be run in iterative mode, which sets an upper bound for the number of iterations that the algorithm will perform. Note that the algorithm can converge before it reaches the upper bound.
-To execute the code in iterative mode, simply run the code as such:
-
+Iterative mode:
+- The algorithm can also be run in iterative mode, which sets an upper bound for the number of iterations that the algorithm will perform.
+- *Note*: The algorithm can converge before it reaches the upper bound.
+- To execute the program on a mesh in iterative mode:
 ```console
 $ ./src/main.py simple_tet.obj -i n #with n an integer
 ```
