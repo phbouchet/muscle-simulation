@@ -1,146 +1,85 @@
-# Muscle Simulation 
+# Muscle Simulation - NumPy EMU implementation 
 
-We seek to implement the algorithm proposed by V. Modi et al. in their paper [EMU - Efficient Muscle Simulation](https://www.dgp.toronto.edu/projects/efficient-muscles/emu.pdf).
+An implementation of the EMU algorithm proposed by V. Modi et al. in their paper [EMU - Efficient Muscle Simulation](https://www.dgp.toronto.edu/projects/efficient-muscles/emu.pdf). We have implemented the various functions and concepts defined in the paper.
 
-# Installing Dolfinx
+Here is a summary of what the different files implement:
 
-In order to accomplish this project, we must install fenicsx.
+- `physics_E.py`:
+    - Discretized energy formula ($Eq.5$)
+    - Derivative of discretized energy ($Eq.9$)
+    - Computationally optimized hessian using low-rank approximation ($Eq.14$)
+    - Inverse hessian using Woodbury matrix identity ($Eq.17$)
+- `physics_Ec.py`:
+    - As-continuous-as-possible (ACAP) energy ($Eq.3$)
+    - ACAP energy minimization solve ($Eq.4$)
+    - Algorithm to generate the $G$ matrix
+    - Derivative of the continuous energy ($Eq.10$)
+- `physics_psi.py`:
+    - Neo-Hookean elasticity functions for muscle, bone and tendon ($Eq.8$)
+    - Derivatives and hessians of Neo-Hookean functions
+- `physics_EMU.py`:
+    - Implementation of EMU algorithm ($Algorithm.1$)
 
+There is a wrapper (`physics_lib.py`) which essentially includes all the physics functions, except the EMU algorithm, into one file. 
 
-### Create virtual environment
+## Setup
 
-To start off, let's create the virtual environment in the root of our `muscle-simulation` repo:
+### Prerequisites
 
-`$ python3 -m venv env`
+`python3-venv` will be necessary in order to create the virtual environment. To install on Ubuntu/Debian:
+```console
+$ sudo apt-get update -y
+$ sudo apt-get install -y python3-venv 
+```
 
-### For **Debian**:
-- `$ sudo apt install fenicsx`
+### Initializing the virtual environment
 
-### For **Ubuntu**:
-- `$ add-apt-repository ppa:fenics-packages/fenics`
-- `$ apt update`
-- `$ apt install fenicsx`
+To setup the virtual environment:
 
-# C++ dependenicies
+```console
+$ python3 -m venv env
+$ source env/bin/activate
+$ pip install -r requirements.txt
+```
 
-You will need:
-- C++ compiler
-- Boost
-- CMake
-- pkg-config
-- FFCx
-- Basix
-- Pugixml
-- PETSc
+To enter the virtual environment:
+```console
+$ source env/bin/activate
+```
 
-## Boost:
+To exit the virtual environment:
+```
+$ deactivate
+```
 
-To install Boost:
+## Running the algorithm
 
-`$ sudo apt install libboost-all-dev`
+To execute the algorithm on a mesh, simply run the code as such:
 
-## CMake:
+```console
+$ ./src/main.py simple_tet.obj
+```
 
-To install CMake:
+The algorithm can be run in two different ways. By default, it is run in convergence mode, which means that the algorithm will automatically halt once it has converged. The algorithm can also be run in iterative mode, which sets an upper bound for the number of iterations that the algorithm will perform. Note that the algorithm can converge before it reaches the upper bound.
+To execute the code in iterative mode, simply run the code as such:
 
-`$ sudo apt install cmake`
+```console
+$ ./src/main.py simple_tet.obj -i n #with n an integer
+```
 
-## Basix:
+The program will generate the meshes in the `data/` folder, formatted as `EMU_mesh_*_*.obj`. To remove the generated meshes, simply run:
 
-To install Basix:
+```console
+$ make clean
+```
 
-- `$ git clone git@github.com:FEniCS/basix.git ~/basix`
-- `$ cd ~/basix/cpp`
-- `$ cmake -DCMAKE_BUILD_TYPE=Release -B build-dir -S .`
-- `$ cmake --build build-dir`
-- `$ sudo cmake --install build-dir`
+We provide a mesh of a single tetrahedron in `data/simple_tet.obj` which can be used for testing and debugging purposes.
 
-## FFCx
+## Viewing the results
 
-To install FFCx:
+To view the results, we suggest using blender to import the .obj files, and view manually. Unfortunately, we cannot animate the movement of the mesh using blender, so you will have to view each individual mesh by hand to study its deformation.
 
-- `$ git clone https://github.com/FEniCS/ffcx ~/ffcx`
-- `$ cd ~/ffcx`
-- `$ cmake -B build-dir -S cmake/` 
-- `$ cmake --build build-dir` 
-- `$ cmake --install build-dir`
-
-## pkg-config:
-
-To install pkg-config:
-
-`$ sudo apt install pkg-config`
-
-## Pugixml:
-
-Download and extract the archive from the [pugixml official website](https://pugixml.org/).
-
-To install Pugixml:
-
-- `$ tar -xf pugixml-1.13.tar.gz`
-- `$ cd pugixml-1.13/`
-- `$ mkdir build/`
-- `$ cd build/`
-- `$ cmake ..`
-- `$ make install`
-
-## PETSc:
-
-*Note*: Make sure the `mpicc` and `mpic++` compilers are installed on your system! They should be already installed by default.
-
-To install PETSc:
-
-- `$ git clone -b release https://gitlab.com/petsc/petsc.git ~/petsc`
-- `$ cd ~/petsc`
-- `$ ./configure --with-cc=mpicc --with-cxx=mpic++ --with-fc=0`
-- `$ make all check`
-- `$ export PETSC_DIR=/home/$USER/petsc`
-- `$ export PETSC_ARCH=arch-linux-cxx-debug`
-
-**Do** ***NOT*** **delete the petsc folder after you have installed it! The Python version will still need it!!!**
-
-# Build dolfinx
-
-Now that we have installed the C++ dependencies for Dolfinx, we can start building the C++ core components.
-
-Finally install the Python version onto our virtual environment, using pip.
-
-## Build C++ core components
-
-We assume that we clone dolfinx in the home directory `~`
-
-- `$ git clone git@github.com:FEniCS/dolfinx.git`
-- `$ cd ~/dolfinx/`
-- `$ mkdir cpp/build`
-- `$ cd cpp/build`
-- `$ cmake ..`
-- `$ sudo make install`
-
-## Python installation
-
-Once done, we can start installing Dolfinx for Python, as well as the requirements.
-
-We change the directory to the root of our `muscle-simulation` git repo.
-
-Assuming it is located in the home directory `~`
-
-- `$ cd ~/muscle-simulation/`
-- `$ source env/bin/activate`
-- `$ pip install -r requirements.txt`
-- `$ cd ~/dolfinx/python/`
-- `$ pip install .`
-
-With this, Dolfinx should now be installed on your virtual environment!
-
-# Roadmap
-
-### Data processing
-* [x] Tetrahedralize 2D mesh
-* [ ] Labelize meshes
-
-### Algorithm implementation
-* [ ] Implement neo-Hookean function
-
-`... more to come ...`
-
-* [ ] Implement EMU algorithm
+## Authors
+- [Philippe Bouchet](https://github.com/sudomane): philippe.bouchet@epita.fr
+- Jean-Baptiste Deloges: jean-baptiste.deloges@epita.fr
+- Sebastien Barbier: sebastien1.barbier@epita.fr
