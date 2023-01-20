@@ -1,7 +1,7 @@
 import shutil
 import numpy as np
 
-def load_mesh(mesh_path : str):
+def import_mesh(mesh_path : str):
     vertex_data = []
     face_data = []
     for line in open(mesh_path, "r"):
