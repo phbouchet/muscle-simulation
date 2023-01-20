@@ -6,7 +6,7 @@ as well as their derivatives and hessians.
 import numpy as np
 
 def a(t : int) -> float:
-    return (1/10) * t
+    return 1/1000 * t
 
 def psi_fiber(F : np.ndarray, u : np.ndarray, t : int) -> int:
     return a(t) * (F.T @ F @ u.T @ u)[0,0]
@@ -15,7 +15,7 @@ def d_psi_fiber(F : np.ndarray, u : np.ndarray, t : int) -> np.ndarray:
     return a(t) * (F @ u.T @ u)
 
 def psi_fiber_hessian(F : np.ndarray,  u : np.ndarray, t : int) -> np.ndarray:
-    return psi_fiber(F, u, t)
+    return d_psi_fiber(F, u, t)
 
 def psi_iso(F : np.ndarray):
     return 0
