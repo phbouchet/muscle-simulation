@@ -5,20 +5,20 @@ An implementation of the EMU algorithm proposed by V. Modi et al. in their paper
 Here is a summary of what the different files implement:
 
 - `physics_E.py`:
-    - Discretized energy formula ($Eq.5$)
-    - Derivative of discretized energy ($Eq.9$)
-    - Computationally optimized hessian using low-rank approximation ($Eq.14$)
-    - Inverse hessian using Woodbury matrix identity ($Eq.17$)
+    - Discretized energy formula (Eq.5)
+    - Derivative of discretized energy (Eq.9)
+    - Computationally optimized hessian using low-rank approximation (Eq.14)
+    - Inverse hessian using Woodbury matrix identity (Eq.17)
 - `physics_Ec.py`:
-    - As-continuous-as-possible (ACAP) energy ($Eq.3$)
-    - ACAP energy minimization solve ($Eq.4$)
+    - As-continuous-as-possible (ACAP) energy (Eq.3)
+    - ACAP energy minimization solve (Eq.4)
     - Algorithm to generate the $G$ matrix
-    - Derivative of the continuous energy ($Eq.10$)
+    - Derivative of the continuous energy (Eq.10)
 - `physics_psi.py`:
-    - Neo-Hookean elasticity functions for muscle, bone and tendon ($Eq.8$)
+    - Neo-Hookean elasticity functions for muscle, bone and tendon (Eq.8)
     - Derivatives and hessians of Neo-Hookean functions
 - `physics_EMU.py`:
-    - Implementation of EMU algorithm ($Algorithm.1$)
+    - Implementation of EMU algorithm
 
 There is a wrapper (`physics_lib.py`) which essentially includes all the physics functions, except the EMU algorithm, into one file. 
 
