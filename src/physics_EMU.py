@@ -4,7 +4,6 @@ import numpy as np
 from mesh_tools import *
 from physics_lib import *
 
-## WHY DOES IT DIVERGE?!!!!!!!!!!!!?!?!?!?!?
 def EMU(F : np.ndarray, Q : np.ndarray, u : np.ndarray, dim : tuple, mesh_path : str, iter : int = None):
     dt = 0.5
     t, i = 0, 0
@@ -27,7 +26,6 @@ def EMU(F : np.ndarray, Q : np.ndarray, u : np.ndarray, dim : tuple, mesh_path :
         H_inv = E_hessian_inv(F, G, u, t, α, dim)
         d = H_inv @ g
         
-        print(f"g norm: {np.linalg.norm(g)}")
         E_ = e_i
 
         iteration = 0
@@ -37,7 +35,7 @@ def EMU(F : np.ndarray, Q : np.ndarray, u : np.ndarray, dim : tuple, mesh_path :
             F_temp = F + σ * d
             q = argmin_Ec(F_temp, G)
             σ *= p
-            
+
             E_ = E(F_temp, G, u, t, α)
             
             out_path = f"{os.getcwd()}/data/EMU_mesh_{i}_{iteration}.obj"
