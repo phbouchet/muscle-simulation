@@ -17,8 +17,9 @@ def E(F : np.ndarray, G : np.ndarray, u : np.ndarray, t : int, α : int) -> int:
 def d_E(F : np.ndarray, G : np.ndarray, u : np.ndarray, t : int, α : int) -> np.ndarray:
     return d_psi_iso(F) + d_psi_fiber(F, u, t) + α * d_Ec(F, G)
 
-def E_hessian_simple(F : np.ndarray, G : np.ndarray, u : np.ndarray, t : int, α : int) -> np.ndarray:
-    return psi_iso_hessian(F) + psi_fiber_hessian(F, u, t) + α * Ec_hessian(F, G)
+def E_hessian_simple(F : np.ndarray, G : np.ndarray, u : np.ndarray, t : int, α : int, dim :tuple) -> np.ndarray:
+    n, m = dim
+    return psi_iso_hessian(F) + psi_fiber_hessian(F, u, t, m) + α * Ec_hessian(F, G)
 
 def E_hessian(F : np.ndarray, G : np.ndarray, u : np.ndarray, t : int, α : int, dim : tuple) -> np.ndarray:
     n, m = dim
@@ -59,7 +60,7 @@ def E_hessian_inv(F : np.ndarray, G : np.ndarray, u : np.ndarray, t : int, α : 
     Λ = np.multiply(np.identity(k), eig_val) # (k, k)
     
     I = np.identity(9*m)
-    H = psi_iso_hessian(F) + psi_fiber_hessian(F, u, t) + α * I #(9m, 9m)
+    H = psi_iso_hessian(F) + psi_fiber_hessian(F, u, t, m) + α * I #(9m, 9m)
     H_inv = np.linalg.inv(H) # (9m, 9m)
 
     B = Φ @ G.T # (k, 9m)
