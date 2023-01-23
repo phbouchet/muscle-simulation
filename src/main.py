@@ -17,9 +17,9 @@ def main(mesh_file : str, iterations : int = None):
     m = int(n/4)
     dim = (n, m)
 
-    F = np.tile(np.ravel(np.identity(3))[:, None], (m, 1))
+    F = (1/1000) * np.tile(np.ravel(np.identity(3))[:, None], (m, 1))
     Q = np.ravel(np.array(vertices))[:, None]
-    u = np.ones((3*m, 1))
+    u = np.tile([0,0,-1], m)[:, None]
 
     EMU(F, Q, u, dim, mesh_path, iterations)
 
